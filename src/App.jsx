@@ -272,14 +272,20 @@ export default function UVDashboard() {
               axisLine={{ stroke: "#1a1a30" }}
               tickLine={false}
               interval={0}
+              tickFormatter={(val) => ["7am","10am","1pm","4pm","7pm"].includes(val) ? val : ""}
             />
             <YAxis
               tick={{ fill: "#bbb", fontSize: 13, fontFamily: "EB Garamond, Georgia, serif" }}
               axisLine={false}
               tickLine={false}
-              domain={[0, "dataMax + 1"]}
+              domain={[0, 12]}
+              ticks={[2, 5, 7, 10]}
             />
             <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#ffffff10", strokeWidth: 1 }} />
+            <ReferenceLine y={2}  stroke="#4ade8022" strokeWidth={1} />
+            <ReferenceLine y={5}  stroke="#facc1522" strokeWidth={1} />
+            <ReferenceLine y={7}  stroke="#fb923c22" strokeWidth={1} />
+            <ReferenceLine y={10} stroke="#f8717122" strokeWidth={1} />
             <ReferenceLine
               x={formatHour(currentEntry?.DATE_TIME)}
               stroke="#ffffff20"
