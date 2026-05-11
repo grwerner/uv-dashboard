@@ -143,7 +143,7 @@ export default function UVDashboard() {
     label: {
       fontSize: "10px",
       letterSpacing: "0.22em",
-      color: "#444",
+      color: "#888",
       textTransform: "uppercase",
       marginBottom: "6px",
     },
@@ -186,7 +186,7 @@ export default function UVDashboard() {
           </div>
         </div>
         <button onClick={fetchData} title="Refresh" style={{
-          background: "none", border: "1px solid #1a1a30", color: "#444",
+          background: "none", border: "1px solid #1a1a30", color: "#888",
           fontFamily: "'DM Mono', monospace", fontSize: "9px", letterSpacing: "0.15em",
           padding: "6px 12px", cursor: "pointer", textTransform: "uppercase",
           borderRadius: "2px",
@@ -252,13 +252,13 @@ export default function UVDashboard() {
             </defs>
             <XAxis
               dataKey="label"
-              tick={{ fill: "#3a3a5a", fontSize: 9, fontFamily: "'DM Mono', monospace", letterSpacing: "0.05em" }}
+              tick={{ fill: "#777", fontSize: 9, fontFamily: "'DM Mono', monospace", letterSpacing: "0.05em" }}
               axisLine={{ stroke: "#1a1a30" }}
               tickLine={false}
               interval="preserveStartEnd"
             />
             <YAxis
-              tick={{ fill: "#3a3a5a", fontSize: 9, fontFamily: "'DM Mono', monospace" }}
+              tick={{ fill: "#777", fontSize: 9, fontFamily: "'DM Mono', monospace" }}
               axisLine={false}
               tickLine={false}
               domain={[0, "dataMax + 1"]}
@@ -268,7 +268,7 @@ export default function UVDashboard() {
               x={formatHour(currentEntry?.DATE_TIME)}
               stroke="#ffffff14"
               strokeDasharray="3 3"
-              label={{ value: "NOW", position: "insideTopRight", fill: "#444", fontSize: 8, fontFamily: "'DM Mono', monospace" }}
+              label={{ value: "NOW", position: "insideTopRight", fill: "#888", fontSize: 8, fontFamily: "'DM Mono', monospace" }}
             />
             <Area
               type="monotone"
@@ -286,7 +286,7 @@ export default function UVDashboard() {
       {/* Scale */}
       <div style={{ display: "flex", gap: "14px", flexWrap: "wrap", marginBottom: "20px" }}>
         {UV_LEVELS.map(l => (
-          <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "9px", color: "#444", letterSpacing: "0.12em" }}>
+          <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "9px", color: "#888", letterSpacing: "0.12em" }}>
             <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: l.color, flexShrink: 0 }} />
             {l.label.toUpperCase()}
           </div>
@@ -294,7 +294,7 @@ export default function UVDashboard() {
       </div>
 
       {/* Footer */}
-      <div style={{ fontSize: "9px", color: "#2a2a40", letterSpacing: "0.1em", lineHeight: 1.8 }}>
+      <div style={{ fontSize: "9px", color: "#666", letterSpacing: "0.1em", lineHeight: 1.8 }}>
         SOURCE: NOAA / EPA ENVIROFACTS UV API · ZIP {ZIP}
         {lastFetched && ` · FETCHED ${lastFetched.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`}
         <br />
