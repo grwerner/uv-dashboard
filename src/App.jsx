@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 
 const UV_LEVELS = [
-  { max: 2,  label: "Low",       color: "#4ade80" },
-  { max: 5,  label: "Moderate",  color: "#facc15" },
-  { max: 7,  label: "High",      color: "#fb923c" },
-  { max: 10, label: "Very High", color: "#f87171" },
-  { max: 99, label: "Extreme",   color: "#c084fc" },
+  { max: 2,  label: "Low",      shortLabel: "Low",     color: "#4ade80" },
+  { max: 5,  label: "Moderate", shortLabel: "Mod.",    color: "#facc15" },
+  { max: 7,  label: "High",     shortLabel: "High",    color: "#fb923c" },
+  { max: 10, label: "V. High", shortLabel: "V. High", color: "#f87171" },
+  { max: 99, label: "Extreme", shortLabel: "Extreme", color: "#c084fc" },
 ];
 
 function getLevel(uvi) {
@@ -55,8 +55,7 @@ const CustomTooltip = ({ active, payload, label }) => {
     const level = getLevel(uvi);
     return (
       <div style={{ background: "#0a0a18", border: `1px solid ${level.color}44`, padding: "8px 14px", borderRadius: "3px", fontFamily: serif, fontSize: "14px" }}>
-        <div style={{ color: level.color, fontWeight: "600" }}>UVI {uvi}</div>
-        <div style={{ color: "#bbb", fontSize: "13px", marginTop: "2px" }}>{label} · {level.label}</div>
+        <div style={{ color: level.color, fontWeight: "600", fontSize: "22px", lineHeight: 1 }}>{uvi}</div>
       </div>
     );
   }
@@ -90,10 +89,10 @@ function ZipModal({ onSubmit }) {
         borderRadius: "6px", padding: "32px 28px", width: "280px",
         boxSizing: "border-box",
       }}>
-        <div style={{ fontStyle: "italic", fontSize: "20px", color: "#e0e0f0", marginBottom: "10px" }}>
+        <div style={{ fontSize: "20px", color: "#e0e0f0", marginBottom: "10px" }}>
           Location access denied
         </div>
-        <div style={{ fontSize: "14px", color: "#bbb", fontStyle: "italic", lineHeight: 1.6, marginBottom: "20px" }}>
+        <div style={{ fontSize: "14px", color: "#bbb", lineHeight: 1.6, marginBottom: "20px" }}>
           Enter a ZIP code to get your local UV forecast.
         </div>
         <input
@@ -119,7 +118,7 @@ function ZipModal({ onSubmit }) {
             width: "100%", padding: "10px",
             background: "none", border: "1px solid #2a2a40",
             borderRadius: "3px", color: "#bbb",
-            fontFamily: serif, fontSize: "15px", fontStyle: "italic",
+            fontFamily: serif, fontSize: "15px",
             cursor: "pointer", marginTop: "4px",
           }}
         >
@@ -240,12 +239,12 @@ export default function UVDashboard() {
 
   const root = { minHeight: "100vh", background: "#080810", padding: "36px 28px", fontFamily: serif, color: "#c0c0d0", maxWidth: "600px", margin: "0 auto", boxSizing: "border-box" };
   const card = { background: "#0d0d20", border: "1px solid #1a1a30", borderRadius: "3px", padding: "20px 22px" };
-  const lbl = { fontSize: "16px", color: "#bbb", fontStyle: "italic", fontFamily: serif };
+  const lbl = { fontSize: "16px", color: "#bbb", fontFamily: serif };
 
   // Waiting for geolocation
   if (!zip && !showZipModal) return (
     <div style={{ ...root, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={lbl}>Locating…</div>
+      <div style={{ ...lbl, fontStyle: "normal" }}>Locating…</div>
     </div>
   );
 
@@ -256,10 +255,10 @@ export default function UVDashboard() {
       {/* Header */}
       <div style={{ marginBottom: "28px", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         <div>
-          <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: "26px", color: "#e0e0f0", lineHeight: 1 }}>UV Index</div>
+          <div style={{ fontFamily: serif, fontSize: "26px", color: "#e0e0f0", lineHeight: 1 }}>UV Index</div>
           <div style={{ ...lbl, fontSize: "14px", marginTop: "6px" }}>{city || `ZIP ${zip}`} · {dateStr}</div>
         </div>
-        <button onClick={() => fetchData(zip)} style={{ background: "none", border: "1px solid #1a1a30", color: "#bbb", fontFamily: serif, fontSize: "14px", fontStyle: "italic", padding: "6px 12px", cursor: "pointer", borderRadius: "2px" }}>↻ Refresh</button>
+        <button onClick={() => fetchData(zip)} style={{ background: "none", border: "1px solid #1a1a30", color: "#bbb", fontFamily: serif, fontSize: "14px", padding: "6px 12px", cursor: "pointer", borderRadius: "2px" }}>↻ Refresh</button>
       </div>
 
       {loading && (
@@ -268,8 +267,8 @@ export default function UVDashboard() {
 
       {error && !loading && (
         <div style={{ ...card, textAlign: "center" }}>
-          <div style={{ ...lbl, color: "#f87171", marginBottom: "12px" }}>{error}</div>
-          <button onClick={() => setShowZipModal(true)} style={{ background: "none", border: "1px solid #2a2a40", color: "#bbb", fontFamily: serif, fontSize: "14px", fontStyle: "italic", padding: "8px 16px", cursor: "pointer", borderRadius: "2px" }}>Try a different ZIP</button>
+          <div style={{ ...lbl, fontStyle: "normal", color: "#f87171", marginBottom: "12px" }}>{error}</div>
+          <button onClick={() => setShowZipModal(true)} style={{ background: "none", border: "1px solid #2a2a40", color: "#bbb", fontFamily: serif, fontSize: "14px", padding: "8px 16px", cursor: "pointer", borderRadius: "2px" }}>Try a different ZIP</button>
         </div>
       )}
 
@@ -284,7 +283,7 @@ export default function UVDashboard() {
               </div>
               <div style={{ marginTop: "16px" }}>
                 <div style={{ fontFamily: display, fontSize: "80px", color: currentLevel?.color, lineHeight: 0.9 }}>{currentUVI ?? "—"}</div>
-                <div style={{ fontSize: "20px", color: currentLevel?.color, fontStyle: "italic", marginTop: "8px" }}>{currentLevel?.label}</div>
+                <div style={{ fontSize: "20px", color: currentLevel?.color, marginTop: "8px" }}>{currentLevel?.label}</div>
               </div>
             </div>
             <div style={{ ...card, borderLeft: `3px solid ${peakLevel?.color || "#333"}`, borderRadius: "0 3px 3px 0", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -294,14 +293,14 @@ export default function UVDashboard() {
               </div>
               <div style={{ marginTop: "16px" }}>
                 <div style={{ fontFamily: display, fontSize: "80px", color: peakLevel?.color, lineHeight: 0.9 }}>{peakEntry?.UV_VALUE ?? "—"}</div>
-                <div style={{ fontSize: "20px", color: peakLevel?.color, fontStyle: "italic", marginTop: "8px" }}>{peakLevel?.label}</div>
+                <div style={{ fontSize: "20px", color: peakLevel?.color, marginTop: "8px" }}>{peakLevel?.label}</div>
               </div>
             </div>
           </div>
 
           {/* Chart */}
           <div style={{ ...card, marginBottom: "20px" }}>
-            <div style={{ ...lbl, fontSize: "15px", marginBottom: "16px" }}>Hourly forecast · 7am–7pm</div>
+            <div style={{ ...lbl, fontSize: "15px", marginBottom: "16px", fontStyle: "normal" }}>Hourly forecast · 7am–7pm</div>
             <ResponsiveContainer width="100%" height={180}>
               <AreaChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                 <defs>
@@ -310,7 +309,7 @@ export default function UVDashboard() {
                     <stop offset="95%" stopColor={peakLevel?.color || "#facc15"} stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="label" tick={{ fill: "#bbb", fontSize: 13, fontFamily: "EB Garamond, Georgia, serif", fontStyle: "italic" }} axisLine={{ stroke: "#1a1a30" }} tickLine={false} interval={0} tickFormatter={(val) => ["7am","10am","1pm","4pm","7pm"].includes(val) ? val : ""} />
+                <XAxis dataKey="label" tick={{ fill: "#bbb", fontSize: 13, fontFamily: "EB Garamond, Georgia, serif" }} axisLine={{ stroke: "#1a1a30" }} tickLine={false} interval={0} tickFormatter={(val) => ["7am","10am","1pm","4pm","7pm"].includes(val) ? val : ""} />
                 <YAxis tick={{ fill: "#bbb", fontSize: 13, fontFamily: "EB Garamond, Georgia, serif" }} axisLine={false} tickLine={false} domain={[0, 11]} ticks={[2, 4, 6, 8, 10]} />
                 <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#ffffff10", strokeWidth: 1 }} />
                 <ReferenceLine y={2}  stroke="#ffffff12" strokeWidth={1} />
@@ -318,7 +317,7 @@ export default function UVDashboard() {
                 <ReferenceLine y={6}  stroke="#ffffff12" strokeWidth={1} />
                 <ReferenceLine y={8}  stroke="#ffffff12" strokeWidth={1} />
                 <ReferenceLine y={10} stroke="#ffffff12" strokeWidth={1} />
-                <ReferenceLine x={formatHour(currentEntry?.DATE_TIME)} stroke="#ffffff20" strokeDasharray="3 3" label={{ value: "Now", position: "insideTopRight", fill: "#bbb", fontSize: 13, fontFamily: "EB Garamond, Georgia, serif", fontStyle: "italic" }} />
+                <ReferenceLine x={formatHour(currentEntry?.DATE_TIME)} stroke="#ffffff20" strokeDasharray="3 3" label={{ value: "Now", position: "insideTopRight", fill: "#bbb", fontSize: 13, fontFamily: "EB Garamond, Georgia, serif" }} />
                 <Area type="monotone" dataKey="uvi" stroke={peakLevel?.color || "#facc15"} strokeWidth={1.5} fill="url(#uvGrad)" dot={false} activeDot={{ r: 3, fill: peakLevel?.color, strokeWidth: 0 }} />
               </AreaChart>
             </ResponsiveContainer>
@@ -329,19 +328,19 @@ export default function UVDashboard() {
             {UV_LEVELS.map(l => (
               <div key={l.label} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px", color: "#bbb", fontFamily: serif }}>
                 <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: l.color, flexShrink: 0 }} />
-                {l.label}
+                {l.shortLabel}
               </div>
             ))}
           </div>
 
           {/* Footer */}
-          <div style={{ fontSize: "12px", color: "#888", lineHeight: 1.8, fontStyle: "italic", fontFamily: serif }}>
+          <div style={{ fontSize: "12px", color: "#888", lineHeight: 1.8, fontFamily: serif }}>
             Source: NOAA / EPA Envirofacts UV API · ZIP {zip}
             {lastFetched && ` · Fetched ${lastFetched.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}`}
             <br />
             Forecast is cloud-adjusted · Broken cumulus may exceed by 25–40%
             <br />
-            <span style={{ cursor: "pointer", textDecoration: "underline", color: "#666" }} onClick={() => setShowZipModal(true)}>Change location</span>
+            <span style={{ cursor: "pointer", textDecoration: "underline", color: "#bbb", fontSize: "24px", fontWeight: "500", fontStyle: "normal" }} onClick={() => setShowZipModal(true)}>Change location</span>
           </div>
         </>
       )}
